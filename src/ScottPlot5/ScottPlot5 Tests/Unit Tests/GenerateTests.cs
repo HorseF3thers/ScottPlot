@@ -1,4 +1,6 @@
-﻿namespace ScottPlotTests.RenderTests.Figure;
+﻿using NUnit.Framework;
+
+namespace ScottPlotTests.RenderTests.Figure;
 
 public class GenerateTests
 {
@@ -35,5 +37,44 @@ public class GenerateTests
         values[2].Should().Be(.10);
         values[^2].Should().Be(.95);
         values[^1].Should().Be(1);
+    }
+
+    [Test]
+    public void Test_Consecutive2D()
+    {
+        int rows = 3;
+        int columns = 3;
+        double spacing = 1;
+        double offset = 0;
+
+        double[,] result = Generate.Consecutive2D(rows, columns, spacing, offset);
+
+        double[,] expected = new double[,]
+        {
+            { 0, 1, 2 },
+            { 3, 4, 5 },
+            { 6, 7, 8 }
+        };
+
+        result.Should().BeEquivalentTo(expected);
+    }
+
+
+    [Test]
+    public void Test_Ramp2D()
+    {
+        int width = 3;
+        int height = 3;
+
+        double[,] result = Generate.Ramp2D(width, height);
+
+        double[,] expected = new double[,]
+        {
+            { 0, 1.0 / 6, 2.0 / 6 },
+            { 1.0 / 6, 2.0 / 6, 3.0 / 6 },
+            { 2.0 / 6, 3.0 / 6, 4.0 / 6 }
+        };
+
+        result.Should().BeEquivalentTo(expected);
     }
 }
